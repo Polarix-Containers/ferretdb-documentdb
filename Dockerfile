@@ -14,11 +14,11 @@ ARG TARGETARCH
 RUN apt update \
     && apt full-upgrade -y \
     && apt install -y \
-        postgresql-${POSTGRES_VERSION}-cron \
-        postgresql-${POSTGRES_VERSION}-pgvector \
-        postgresql-${POSTGRES_VERSION}-postgis-3 \
-        postgresql-${POSTGRES_VERSION}-rum \
-        postgresql-server-dev-${POSTGRES_VERSION} \
+        postgresql-${POSTGRES}-cron \
+        postgresql-${POSTGRES}-pgvector \
+        postgresql-${POSTGRES}-postgis-3 \
+        postgresql-${POSTGRES}-rum \
+        postgresql-server-dev-${POSTGRES} \
         barman-cli-cloud \
     && wget -O ferretdb.deb https://github.com/FerretDB/documentdb/releases/download/v${DOCUMENTDB}-ferretdb-${FERRETDB}/deb12-postgresql-${POSTGRES}-documentdb_${DOCUMENTDB}.ferretdb.${FERRETDB}_amd64.deb \
     && dpkg -i ferretdb.deb \
