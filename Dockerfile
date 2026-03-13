@@ -26,6 +26,6 @@ RUN apt update \
 
 
 COPY --from=extract /docker-entrypoint-initdb.d/10-preload.sh /docker-entrypoint-initdb.d
-COPY --form=extract /docker-entrypoint-initdb.d/20-install.sql /docker-entrypoint-initdb.d
+COPY --from=extract /docker-entrypoint-initdb.d/20-install.sql /docker-entrypoint-initdb.d
 
 WORKDIR /
