@@ -11,7 +11,8 @@ ARG DOCUMENTDB
 ARG FERRETDB
 ARG TARGETARCH
 
-RUN apt-get update \
+RUN sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
+    && apt-get update \
     && apt-get full-upgrade -y \
     && apt-get install -y \
         postgresql-${POSTGRES}-cron \
