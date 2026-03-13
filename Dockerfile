@@ -11,8 +11,7 @@ ARG DOCUMENTDB
 ARG FERRETDB
 ARG TARGETARCH
 
-RUN sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
-    && apt-get update \
+RUN apt-get update \
     && apt-get full-upgrade -y \
     && apt-get install -y \
         postgresql-${POSTGRES}-cron \
@@ -24,7 +23,8 @@ RUN sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
         wget \
     && wget -O ferretdb.deb https://github.com/FerretDB/documentdb/releases/download/v${DOCUMENTDB}-ferretdb-${FERRETDB}/deb12-postgresql-${POSTGRES}-documentdb_${DOCUMENTDB}.ferretdb.${FERRETDB}_amd64.deb \
     && dpkg -i ferretdb.deb \
-    && rm -rf ferretdb.deb /var/cache/apt
+    && rm -rf ferretdb.deb /var/cache/apt \
+    && rm /usr/local/bin/gosu
 
 
 COPY --from=extract /docker-entrypoint-initdb.d/10-preload.sh /docker-entrypoint-initdb.d
