@@ -20,6 +20,7 @@ RUN apt update \
         postgresql-${POSTGRES}-rum \
         postgresql-server-dev-${POSTGRES} \
         barman-cli-cloud \
+        wget \
     && wget -O ferretdb.deb https://github.com/FerretDB/documentdb/releases/download/v${DOCUMENTDB}-ferretdb-${FERRETDB}/deb12-postgresql-${POSTGRES}-documentdb_${DOCUMENTDB}.ferretdb.${FERRETDB}_amd64.deb \
     && dpkg -i ferretdb.deb \
     && rm -rf ferretdb.deb /var/cache/apt
