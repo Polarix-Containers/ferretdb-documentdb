@@ -11,8 +11,8 @@ ARG DOCUMENTDB
 ARG FERRETDB
 ARG TARGETARCH
 
-RUN apt update
-    && apt full-upgrade -y
+RUN apt update \
+    && apt full-upgrade -y \
     && apt install -y \
         postgresql-${POSTGRES_VERSION}-cron \
         postgresql-${POSTGRES_VERSION}-pgvector \
