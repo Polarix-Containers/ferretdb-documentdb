@@ -13,7 +13,7 @@ ARG TARGETARCH
 
 RUN apt-get update \
     && apt-get full-upgrade -y \
-    && apt-get install -y \
+    && apt-get install --no-install-recommends -y \
         postgresql-${POSTGRES}-cron \
         postgresql-${POSTGRES}-pgvector \
         postgresql-${POSTGRES}-postgis-3 \
