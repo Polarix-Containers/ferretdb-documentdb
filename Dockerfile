@@ -4,14 +4,15 @@ ARG FERRETDB=2.7.0
 
 FROM ghcr.io/ferretdb/postgres-documentdb:${POSTGRES}-${DOCUMENTDB}-ferretdb-${FERRETDB} AS extract
 
-FROM dhi.io/postgres:${POSTGRES}-debian13-dev
+FROM postgres:${POSTGRES}-trixie
 
 ARG POSTGRES
 ARG DOCUMENTDB
 ARG FERRETDB
 ARG TARGETARCH
 
-RUN sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
+RUN apt-get install ca-certificates
+    && sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
     && apt-get update \
     && apt-get full-upgrade -y \
     && apt-get install --no-install-recommends -y \
@@ -27,7 +28,7 @@ RUN sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
     && apt-get autoremove \
     && apt-get autoclean \
     && rm -rf ferretdb.deb /var/cache/apt \
-    && rm /usr/local/sbin/gosu
+    && rm /usr/local/bin/gosu
 
 
 COPY --from=extract /docker-entrypoint-initdb.d/10-preload.sh /docker-entrypoint-initdb.d
