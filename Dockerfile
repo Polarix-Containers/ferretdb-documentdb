@@ -11,7 +11,7 @@ ARG DOCUMENTDB
 ARG FERRETDB
 ARG TARGETARCH
 
-RUN apt-get install ca-certificates
+RUN apt-get install ca-certificates \
     && sed -i 's#http://#https://#g' /etc/apt/sources.list.d/debian.sources \
     && apt-get update \
     && apt-get full-upgrade -y \
