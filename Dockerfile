@@ -26,7 +26,7 @@ RUN apt-get update \
     && apt-get autoremove \
     && apt-get autoclean \
     && rm -rf ferretdb.deb /var/cache/apt \
-    && rm /usr/local/bin/gosu
+    && rm /usr/local/sbin/gosu
 
 
 COPY --from=extract /docker-entrypoint-initdb.d/10-preload.sh /docker-entrypoint-initdb.d
