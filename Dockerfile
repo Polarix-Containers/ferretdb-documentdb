@@ -23,6 +23,8 @@ RUN apt-get update \
         wget \
     && wget -O ferretdb.deb https://github.com/FerretDB/documentdb/releases/download/v${DOCUMENTDB}-ferretdb-${FERRETDB}/deb12-postgresql-${POSTGRES}-documentdb_${DOCUMENTDB}.ferretdb.${FERRETDB}_amd64.deb \
     && dpkg -i ferretdb.deb \
+    && apt-get autoremove \
+    && apt-get autoclean \
     && rm -rf ferretdb.deb /var/cache/apt \
     && rm /usr/local/bin/gosu
 
