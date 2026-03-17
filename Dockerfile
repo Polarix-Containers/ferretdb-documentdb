@@ -40,8 +40,8 @@ RUN apt-get update \
 RUN --network=none \
     usermod -u ${UID} postgres \
     && groupmod -g ${GID} postgres \
-    && find / -user 999 -exec chown -h postgres {} \; \
-    && find / -group 999 -exec chgrp -h postgres {} \;
+    && find / \( -path /proc -prune -false \) -user 999 -exec chown -h postgres {} \; \
+    && find / \( -path /proc -prune -false \) -group 999 -exec chgrp -h postgres {} \;
 
 COPY --from=extract /docker-entrypoint-initdb.d/10-preload.sh /docker-entrypoint-initdb.d
 COPY --from=extract /docker-entrypoint-initdb.d/20-install.sql /docker-entrypoint-initdb.d
