@@ -4,7 +4,7 @@ ARG FERRETDB=2.7.0
 
 FROM ghcr.io/ferretdb/postgres-documentdb:${POSTGRES}-${DOCUMENTDB}-ferretdb-${FERRETDB} AS extract
 
-FROM postgres:${POSTGRES}-trixie
+FROM dhi.io/postgres:${POSTGRES}-debian13-dev
 
 ARG POSTGRES
 ARG DOCUMENTDB
