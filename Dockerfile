@@ -22,16 +22,9 @@ RUN apt-get update \
     && sed -i 's#http://#https://#g' /etc/apt/sources.list.d/pgdg.list \
     && apt-get update \
     && apt-get full-upgrade -y \
-    && apt-get install --no-install-recommends -y \
-        postgresql-${POSTGRES}-cron \
-        postgresql-${POSTGRES}-pgvector \
-        postgresql-${POSTGRES}-postgis-3 \
-        postgresql-${POSTGRES}-rum \
-        postgresql-server-dev-${POSTGRES} \
-        barman-cli-cloud \
-        wget \
+    && apt-get install --no-install-recommends -y wget \
     && wget -O ferretdb.deb https://github.com/FerretDB/documentdb/releases/download/v${DOCUMENTDB}-ferretdb-${FERRETDB}/deb12-postgresql-${POSTGRES}-documentdb_${DOCUMENTDB}.ferretdb.${FERRETDB}_amd64.deb \
-    && dpkg -i ferretdb.deb \
+    && apt-get install --no-install-recommends -y ./ferretdb.deb \
     && apt-get autoremove \
     && apt-get autoclean \
     && rm -rf ferretdb.deb /var/cache/apt \
