@@ -1,21 +1,21 @@
-name: Build
+name: Build 17
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-    # Ignore Markdown files
-    paths-ignore:
-      - '**.md'
+    paths:
+      - '.github/workflows/build-17.yml'
+      - '17/**'
   schedule:
     # Build the image daily
-    - cron: '30 0 * * *'
+    - cron: '15 0 * * *'
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: polarix-containers/ferretdb-documentdb
-  TAG: latest
+  TAG: 17
 
 jobs:
   build:
@@ -29,6 +29,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+
+      - name: Extract DocumentDB version
+        run: |
+          echo "DOCUMENTDB=$(grep -oP -m 1 '(?<=DOCUMENTDB=).*' 17/Dockerfile)" >> $GITHUB_ENV
+          echo "FERRETDB=$(grep -oP -m 1 '(?<=FERRETDB=).*' 17/Dockerfile)" >> $GITHUB_ENV
 
       # Add support for more platforms with QEMU
       - name: Set up QEMU
@@ -52,12 +57,15 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             ${{ env.TAG }}
+            ${{ env.TAG }}-${{ env.DOCUMENTDB }}
+            ${{ env.TAG }}-${{ env.DOCUMENTDB }}-ferretdb-${{ env.FERRETDB }}
+            latest
 
       - name: Build and push Docker image
         id: build-and-push
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: ${{ env.TAG }}
           platforms: linux/amd64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
